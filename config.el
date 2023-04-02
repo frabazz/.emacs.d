@@ -25,14 +25,11 @@
 (use-package all-the-icons-dired)
 (setq neo-theme 'icons)
 (setq doom-theme 'doom-horizon)
-(defcustom neo-window-width 25
+(defcustom neo-window-width 50
   "*Specifies the width of the NeoTree window."
   :type 'integer
   :group 'neotree)
 ;;
-;; slime
-(load (expand-file-name "~/.quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "sbcl")
 
 
 
@@ -127,12 +124,21 @@
     (message "Hello world")
 )
 
-(load "~/.doom.d/personal")
+;;file dir with personal config
+(setq personal-file "~/.doom.d/personal")
+
+(if (not (file-readable-p (concat personal-file ".el")))
+    (make-empty-file (concat personal-file ".el"))
+)
+(load personal-file)
+
+
 
 ;; NOTE CUSTOM KEYBINDINGS
 (map! :leader :desc "init npm project" "j i" #'npm-mode-npm-init)
 (map! :leader :desc "start hello world" "j x" #'hello)
 (map! :leader :desc "yank text" "t y" #'yank)
+(map! :leader :desc "kill text" "t k" #'kill-region)
+(map! :leader :desc "copy text" "t c" #'copy-region-as-kill)
 (map! :leader :desc "open terminal (shell command)" "t t" #'+term/here)
-
 ;;LSP sucks
